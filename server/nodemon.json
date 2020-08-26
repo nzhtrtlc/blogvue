@@ -1,0 +1,7 @@
+{
+  "env": {
+    "MONGO_ATLAS_USER": "nezih",
+    "MONGO_ATLAS_PW": "R2NUYDkvI1Y9aEeW",
+    "MONGO_ATLAS_DB": "cluster0db"
+  }
+}

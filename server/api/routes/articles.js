@@ -13,11 +13,7 @@ router.get('/', async (req, res, next) => {
 
 // Create new single article
 router.post('/', async (req, res, next) => {
-    const article = new Article({
-        _id: new mongoose.Types.ObjectId(),
-        title: req.body.title,
-        content: req.body.content
-    });
+    const article = new Article({ ...req.body, _id: new mongoose.Types.ObjectId() });
     await article.save().catch(e => errFnc(e, res));
     return res.status(201).json(article);
 });

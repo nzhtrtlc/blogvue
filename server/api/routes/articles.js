@@ -1,37 +1,53 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const Article = require('../models/article');
+const { errFnc } = require('../../helper');
+
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-    res.status(200).json({
-        message: 'Handling GET request to /articles'
-    })
+// Fetch all articles
+router.get('/', async (req, res, next) => {
+    const docs = await Article.find().exec().catch(e => errFnc(e, res));
+    return res.status(200).json(docs);
 });
 
-router.post('/', (req, res, next) => {
-    res.status(200).json({
-        message: 'Handling POST request to /articles'
-    })
+// Create new single article
+router.post('/', async (req, res, next) => {
+    const article = new Article({
+        _id: new mongoose.Types.ObjectId(),
+        title: req.body.title,
+        content: req.body.content
+    });
+    await article.save().catch(e => errFnc(e, res));
+    return res.status(201).json(article);
 });
 
-router.get('/:articleId', (req, res, next) => {
+// Fetch single article
+router.get('/:articleId', async (req, res, next) => {
     const articleId = req.params.articleId;
-    if (articleId === 'special') {
-        res.status(200).json({ message: 'DISCOVERED', id: articleId })
-    } else {
-        res.status(200).json({ message: 'you passed an ID' })
+    const doc = await Article.findById(articleId).exec().catch(e => errFnc(e, res));
+    if (doc)
+        return res.status(200).json(doc);
+    else
+        return res.status(404).json({ message: 'No valid entry found for provided ID' });
+});
+
+// Update single article
+router.patch('/:articleId', async (req, res, next) => {
+    const articleId = req.params.articleId;
+    const updateOps = {};
+    for (const ops of req.body) {
+        updateOps[ops.propName] = ops.value;
     }
+    const result = await Article.update({ _id: articleId }, { $set: updateOps }).exec().catch(e => errFnc(e, res));
+    return res.status(200).json(result);
 });
 
-router.patch('/:articleId', (req, res, next) => {
-    res.status(200).json({
-        message: 'Updated article!'
-    });
-});
-
-router.delete('/:articleId', (req, res, next) => {
-    res.status(200).json({
-        message: 'Deleted article!'
-    });
+// Delete single article
+router.delete('/:articleId', async (req, res, next) => {
+    const articleId = req.params.articleId;
+    const result = await Article.remove({ _id: articleId }).exec().catch(e => errFnc(e, res));
+    return res.status(200).json(result);
 });
 
 module.exports = router;

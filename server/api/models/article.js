@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const articleSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    title: String,
-    content: String,
-    category: String,
-    author: mongoose.Schema.Types.ObjectId,
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+    category: { type: String, required: true },
+    author: {type: mongoose.Schema.Types.ObjectId, required: true},
     tags: [String],
     comments: String,
 }, { timestamps: true });

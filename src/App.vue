@@ -1,19 +1,11 @@
 <template>
     <div id="app">
-        <AuthorInfo />
-        <Articles />
+        <router-view />
     </div>
 </template>
 
-<script>
-    import AuthorInfo from "./components/AuthorInfo.vue";
-    import Articles from "./components/Articles.vue";
-
-    export default {
-        name: "App",
-        components: {
-            AuthorInfo,
-            Articles
-        }
-    };
-</script>
+<style scoped>
+    #app{
+        height: 100%;
+    }
+</style>

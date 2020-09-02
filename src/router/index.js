@@ -1,8 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Admin from '../admin/Login.vue';
+import AdminLogin from '../admin/Login.vue';
 import Dashboard from '../admin/Dashboard.vue';
+//import get from 'lodash.get';
 
 Vue.use(VueRouter);
 
@@ -14,13 +15,19 @@ const routes = [
     },
     {
         path: '/admin',
-        name: "Admin",
-        component: Admin
+        name: "AdminLogin",
+        component: AdminLogin,
+        meta: {
+            requireAuth: true
+        }
     },
     {
         path: '/admin/dashboard',
         name: 'Dashboard',
-        component: Dashboard
+        component: Dashboard,
+        meta: {
+            requireAuth: true
+        }
     }
 ];
 

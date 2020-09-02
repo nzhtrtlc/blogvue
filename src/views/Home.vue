@@ -2,6 +2,7 @@
     <div class="home">
         <AuthorInfo />
         <Articles />
+        <router-link to="/admin">Admin Panel</router-link>
     </div>
 </template>
 

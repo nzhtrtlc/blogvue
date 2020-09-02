@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Category = require('../models/category');
 const { errFnc } = require('../../helper');
+const checkAuth = require('../middleware/checkAuth');
 
 const router = express.Router();
 
@@ -12,19 +13,6 @@ router.get('/', (req, res, next) => {
             res.status(200).json({
                 count: docs.length,
                 categories: docs
-            });
-        })
-        .catch(e => errFnc(e, res))
-});
-
-// Create single category
-router.post('/', (req, res, next) => {
-    const category = new Category({ ...req.body, _id: new mongoose.Types.ObjectId() });
-    category.save()
-        .then(doc => {
-            res.status(200).json({
-                message: 'Created category successfully',
-                createdCategory: doc
             });
         })
         .catch(e => errFnc(e, res))
@@ -43,8 +31,21 @@ router.get('/:categoryId', (req, res, next) => {
         .catch(e => errFnc(e, res));
 });
 
+// Create single category
+router.post('/', checkAuth, (req, res, next) => {
+    const category = new Category({ ...req.body, _id: new mongoose.Types.ObjectId() });
+    category.save()
+        .then(doc => {
+            res.status(200).json({
+                message: 'Created category successfully',
+                createdCategory: doc
+            });
+        })
+        .catch(e => errFnc(e, res))
+});
+
 // Update single category
-router.patch('/:categoryId', (req, res, next) => {
+router.patch('/:categoryId', checkAuth, (req, res, next) => {
     const categoryId = req.params.categoryId;
     const updateOps = {};
     for (const ops of req.body) {
@@ -56,7 +57,7 @@ router.patch('/:categoryId', (req, res, next) => {
 });
 
 // Delete single category
-router.delete('/:categoryId', (req, res, next) => {
+router.delete('/:categoryId', checkAuth, (req, res, next) => {
     const categoryId = req.params.categoryId;
     Category.remove({ _id: categoryId }).exec()
         .then(() => res.status(200).json({ message: 'Category deleted successfully' }))

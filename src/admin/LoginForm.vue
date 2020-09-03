@@ -9,6 +9,7 @@
         <a-button type="primary" :loading="isLoading" v-on:click="login">
             Login
         </a-button>
+        <a-button style="margin-left: 5px" @click="cancelLogin">Cancel</a-button>
         <div v-show="isLoginFailed">
             <br>
             <a-alert
@@ -50,6 +51,10 @@
         } catch (e) {
           console.log(e)
         }
+      },
+      cancelLogin(){
+        this.isLoading = false;
+        this.isLoginFailed = false;
       }
     }
   }

@@ -1,8 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import AdminLogin from '../admin/Login.vue';
-import Dashboard from '../admin/Dashboard.vue';
+import AdminLogin from "../admin/Login.vue";
+import Dashboard from "../admin/Dashboard.vue";
 import NewArticle from "../admin/NewArticle";
 import NewCategory from "../admin/NewCategory";
 
@@ -15,23 +15,23 @@ const routes = [
     component: Home
   },
   {
-    path: '/admin',
+    path: "/admin",
     name: "AdminLogin",
     component: AdminLogin
   },
   {
-    path: '/admin/dashboard',
-    name: 'Dashboard',
+    path: "/admin/dashboard",
+    name: "Dashboard",
     component: Dashboard,
     children: [
       {
-        path: '/newarticle',
-        name: 'NewArticle',
+        path: "/newarticle",
+        name: "NewArticle",
         component: NewArticle
       },
       {
-        path: '/newcategory',
-        name: 'NewCategory',
+        path: "/newcategory",
+        name: "NewCategory",
         component: NewCategory
       }
     ]

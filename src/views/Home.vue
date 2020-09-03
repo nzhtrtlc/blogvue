@@ -7,15 +7,14 @@
 </template>
 
 <script>
-    // @ is an alias to /src
-    import AuthorInfo from "../components/AuthorInfo.vue";
-    import Articles from "../components/Articles.vue";
+  import AuthorInfo from "../components/AuthorInfo.vue";
+  import Articles from "../components/Articles.vue";
 
-    export default {
-        name: "Home",
-        components: {
-            AuthorInfo,
-            Articles
-        }
-    };
+  export default {
+    name: "Home",
+    components: {
+      AuthorInfo,
+      Articles
+    }
+  };
 </script>

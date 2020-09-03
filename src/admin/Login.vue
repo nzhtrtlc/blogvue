@@ -9,16 +9,10 @@
 
 <script>
   import LoginForm from './LoginForm';
-  import get from 'lodash.get';
 
   export default {
     components: {
       LoginForm
-    },
-    beforeCreate() {
-      const isUserLoggedIn = get(this.$store.state, 'isUserLoggedIn');
-      if (isUserLoggedIn)
-        this.$router.push({ name: 'Dashboard' });
     }
   }
 </script>

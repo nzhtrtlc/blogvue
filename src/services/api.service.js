@@ -11,3 +11,9 @@ export const apiService = axios.create({
     Accept: "application/json"
   }
 });
+
+const createArticle = (title, content, category, authorId, tags) => {
+  return apiService.post("/articles", { title, category, authorId, tags });
+};
+
+export { createArticle };

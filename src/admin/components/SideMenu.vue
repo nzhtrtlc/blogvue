@@ -9,15 +9,14 @@
       theme="dark"
       mode="inline"
       :default-selected-keys="['1']"
-      @click="onMenuClick"
+      :selectedKeys="selectedKeys"
+      @select="onMenuItemSelect"
     >
-      <a-menu-item key="1" data-route="/newarticle">
-        <a-icon type="edit" />
-        <span>New Article</span>
-      </a-menu-item>
-      <a-menu-item key="2" data-route="/newcategory">
-        <a-icon type="appstore" />
-        <span>New Category</span>
+      <a-menu-item :key="index" v-for="(menuItem, index) in menuItems">
+        <router-link :to="menuItem.path">
+          <a-icon :type="menuItem.icon" />
+          <span>{{ menuItem.text }}</span>
+        </router-link>
       </a-menu-item>
     </a-menu>
   </a-layout-sider>
@@ -25,25 +24,43 @@
 
 <script>
 import { AuthService } from "../../services/auth.service";
-import get from "lodash.get";
 
 export default {
   data() {
     return {
-      userName: get(this.$store.state, "user.email") || "Admin"
+      selectedKeys: [],
+      menuItems: [
+        { text: "New Article", path: "/newarticle", icon: "edit" },
+        { text: "New Category", path: "/newcategory", icon: "appstore" }
+      ]
     };
+  },
+  created() {
+    const key = this.menuItems.findIndex(
+      menuItem => menuItem.path === this.$route.path
+    );
+    if (key > -1) {
+      this.selectedKeys = [key];
+    }
   },
   methods: {
     logOut() {
       AuthService.logOut();
       this.$router.push({ name: "AdminLogin" });
     },
-    onMenuClick(e) {
-      const route = get(e.domEvent.target, "dataset.route");
-      if (route) this.$router.push(route);
+    onMenuItemSelect({ item, key, selectedKeys }) {
+      console.log(item, selectedKeys);
+      this.selectedKeys = [key];
     }
   }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+a {
+  color: unset;
+  &:hover {
+    color: unset;
+  }
+}
+</style>
